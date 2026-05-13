@@ -6,307 +6,142 @@
 <title>Klasseromsankekart</title>
 <style>
   :root {
-    --bg: #0f1117;
-    --surface: #1a1d27;
-    --card: #222536;
-    --border: #2e3148;
-    --accent: #6c63ff;
-    --accent2: #ff6b9d;
-    --accent3: #00d4aa;
-    --accent4: #ffb347;
-    --accent5: #4fc3f7;
-    --text: #e8e9f0;
-    --muted: #8b8fa8;
-    --danger: #ff5757;
+    --bg:#0f1117; --surface:#1a1d27; --card:#222536; --border:#2e3148;
+    --accent:#6c63ff; --accent2:#ff6b9d; --accent3:#00d4aa; --accent4:#ffb347;
+    --text:#e8e9f0; --muted:#8b8fa8; --danger:#ff5757;
   }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'Segoe UI', system-ui, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    overflow: hidden;
-  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow:hidden;}
+  .screen{display:none;width:100vw;height:100vh;}
+  .screen.active{display:flex;}
 
-  .screen { display: none; width: 100vw; height: 100vh; }
-  .screen.active { display: flex; }
+  /* LOGIN */
+  #login-screen{flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(ellipse at 30% 40%,#1a1040 0%,var(--bg) 60%);}
+  .login-box{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:48px 40px;width:360px;text-align:center;}
+  .login-box h1{font-size:26px;font-weight:700;margin-bottom:6px;}
+  .login-box p{color:var(--muted);font-size:14px;margin-bottom:32px;}
+  .tab-row{display:flex;background:var(--surface);border-radius:10px;padding:4px;margin-bottom:28px;gap:4px;}
+  .tab-btn{flex:1;padding:8px;border:none;background:transparent;color:var(--muted);border-radius:8px;cursor:pointer;font-size:14px;font-weight:500;transition:all .2s;}
+  .tab-btn.active{background:var(--accent);color:#fff;}
+  input[type=text],input[type=password]{width:100%;padding:12px 16px;background:var(--surface);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:15px;outline:none;transition:border-color .2s;margin-bottom:12px;}
+  input:focus{border-color:var(--accent);}
+  .btn-main{width:100%;padding:13px;background:var(--accent);color:#fff;border:none;border-radius:10px;font-size:16px;font-weight:600;cursor:pointer;transition:opacity .2s,transform .1s;margin-top:4px;}
+  .btn-main:hover{opacity:.9;} .btn-main:active{transform:scale(.98);} .btn-main:disabled{opacity:.5;cursor:not-allowed;}
+  .error-msg{color:var(--danger);font-size:13px;margin-top:8px;min-height:18px;}
+  .hint{color:var(--muted);font-size:12px;margin-top:16px;} .hint b{color:var(--text);}
+  .brand-dot{width:52px;height:52px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 20px;}
 
-  /* ── LOGIN ── */
-  #login-screen {
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background: radial-gradient(ellipse at 30% 40%, #1a1040 0%, var(--bg) 60%);
-  }
-  .login-box {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 48px 40px;
-    width: 360px;
-    text-align: center;
-  }
-  .login-box h1 { font-size: 26px; font-weight: 700; margin-bottom: 6px; }
-  .login-box p { color: var(--muted); font-size: 14px; margin-bottom: 32px; }
-  .tab-row {
-    display: flex;
-    background: var(--surface);
-    border-radius: 10px;
-    padding: 4px;
-    margin-bottom: 28px;
-    gap: 4px;
-  }
-  .tab-btn {
-    flex: 1; padding: 8px; border: none;
-    background: transparent; color: var(--muted);
-    border-radius: 8px; cursor: pointer;
-    font-size: 14px; font-weight: 500; transition: all .2s;
-  }
-  .tab-btn.active { background: var(--accent); color: #fff; }
-  input[type=text], input[type=password] {
-    width: 100%; padding: 12px 16px;
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 10px; color: var(--text);
-    font-size: 15px; outline: none;
-    transition: border-color .2s; margin-bottom: 12px;
-  }
-  input:focus { border-color: var(--accent); }
-  .btn-main {
-    width: 100%; padding: 13px;
-    background: var(--accent); color: #fff;
-    border: none; border-radius: 10px;
-    font-size: 16px; font-weight: 600; cursor: pointer;
-    transition: opacity .2s, transform .1s; margin-top: 4px;
-  }
-  .btn-main:hover { opacity: .9; }
-  .btn-main:active { transform: scale(.98); }
-  .btn-main:disabled { opacity: .5; cursor: not-allowed; }
-  .error-msg { color: var(--danger); font-size: 13px; margin-top: 8px; min-height: 18px; }
-  .hint { color: var(--muted); font-size: 12px; margin-top: 16px; }
-  .hint b { color: var(--text); }
-  .brand-dot {
-    width: 52px; height: 52px;
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    border-radius: 14px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 26px; margin: 0 auto 20px;
-  }
+  /* TEACHER */
+  #teacher-screen{flex-direction:column;}
+  .top-bar{background:var(--surface);border-bottom:1px solid var(--border);padding:12px 20px;display:flex;align-items:center;gap:12px;flex-shrink:0;z-index:10;flex-wrap:wrap;}
+  .top-bar h2{font-size:16px;font-weight:600;flex:1;min-width:100px;}
+  .badge{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:4px 12px;font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px;}
+  .badge .dot{width:7px;height:7px;border-radius:50%;background:var(--accent3);box-shadow:0 0 6px var(--accent3);}
+  .btn-sm{padding:7px 14px;border-radius:8px;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:13px;cursor:pointer;transition:background .15s;white-space:nowrap;}
+  .btn-sm:hover{background:var(--border);}
+  .btn-sm.danger{border-color:var(--danger);color:var(--danger);}
+  .btn-sm.danger:hover{background:rgba(255,87,87,.1);}
+  .teacher-body{display:flex;flex:1;overflow:hidden;}
 
-  /* ── TEACHER ── */
-  #teacher-screen { flex-direction: column; }
-  .top-bar {
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    padding: 12px 20px;
-    display: flex; align-items: center; gap: 12px;
-    flex-shrink: 0; z-index: 10; flex-wrap: wrap;
-  }
-  .top-bar h2 { font-size: 16px; font-weight: 600; flex: 1; min-width: 120px; }
-  .badge {
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 8px; padding: 4px 12px;
-    font-size: 12px; color: var(--muted);
-    display: flex; align-items: center; gap: 6px;
-  }
-  .badge .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent3); box-shadow: 0 0 6px var(--accent3); }
-  .btn-sm {
-    padding: 7px 14px; border-radius: 8px;
-    border: 1px solid var(--border); background: var(--card);
-    color: var(--text); font-size: 13px; cursor: pointer;
-    transition: background .15s; white-space: nowrap;
-  }
-  .btn-sm:hover { background: var(--border); }
-  .btn-sm.danger { border-color: var(--danger); color: var(--danger); }
-  .btn-sm.danger:hover { background: rgba(255,87,87,.1); }
-  .teacher-body { display: flex; flex: 1; overflow: hidden; }
+  /* SIDEBAR */
+  .sidebar{width:280px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;overflow:hidden;}
+  .sidebar-section{padding:16px;border-bottom:1px solid var(--border);}
+  .sidebar-section h3{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:12px;}
+  .sidebar-scroll{flex:1;overflow-y:auto;padding:16px;}
+  .pending-list{display:flex;flex-direction:column;gap:8px;}
+  .pending-item{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 12px;display:flex;align-items:center;gap:10px;}
+  .idea-text{flex:1;font-size:13px;line-height:1.4;}
+  .submitter{font-size:11px;color:var(--muted);}
+  .ico-btn{width:28px;height:28px;border-radius:7px;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;transition:background .15s;}
+  .ico-btn.approve{background:rgba(0,212,170,.15);color:var(--accent3);}
+  .ico-btn.approve:hover{background:rgba(0,212,170,.3);}
+  .ico-btn.reject{background:rgba(255,87,87,.1);color:var(--danger);}
+  .ico-btn.reject:hover{background:rgba(255,87,87,.25);}
+  .empty-state{color:var(--muted);font-size:13px;text-align:center;padding:20px 0;}
 
-  /* sidebar */
-  .sidebar {
-    width: 280px; background: var(--surface);
-    border-right: 1px solid var(--border);
-    display: flex; flex-direction: column;
-    flex-shrink: 0; overflow: hidden;
-  }
-  .sidebar-section { padding: 16px; border-bottom: 1px solid var(--border); }
-  .sidebar-section h3 { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: 12px; }
-  .sidebar-scroll { flex: 1; overflow-y: auto; padding: 16px; }
-  .pending-list { display: flex; flex-direction: column; gap: 8px; }
-  .pending-item {
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 10px; padding: 10px 12px;
-    display: flex; align-items: center; gap: 10px;
-  }
-  .pending-item .idea-text { flex: 1; font-size: 13px; line-height: 1.4; }
-  .pending-item .submitter { font-size: 11px; color: var(--muted); }
-  .ico-btn {
-    width: 28px; height: 28px; border-radius: 7px; border: none;
-    cursor: pointer; display: flex; align-items: center; justify-content: center;
-    font-size: 15px; flex-shrink: 0; transition: background .15s;
-  }
-  .ico-btn.approve { background: rgba(0,212,170,.15); color: var(--accent3); }
-  .ico-btn.approve:hover { background: rgba(0,212,170,.3); }
-  .ico-btn.reject { background: rgba(255,87,87,.1); color: var(--danger); }
-  .ico-btn.reject:hover { background: rgba(255,87,87,.25); }
-  .empty-state { color: var(--muted); font-size: 13px; text-align: center; padding: 20px 0; }
+  /* CANVAS */
+  .canvas-area{flex:1;position:relative;overflow:hidden;}
+  canvas{display:block;cursor:grab;} canvas:active{cursor:grabbing;}
+  .canvas-controls{position:absolute;bottom:20px;right:20px;display:flex;flex-direction:column;gap:8px;}
+  .canvas-controls button{width:38px;height:38px;border-radius:10px;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s;}
+  .canvas-controls button:hover{background:var(--border);}
 
-  .canvas-area { flex: 1; position: relative; overflow: hidden; }
-  canvas { display: block; cursor: grab; }
-  canvas:active { cursor: grabbing; }
-  .canvas-controls {
-    position: absolute; bottom: 20px; right: 20px;
-    display: flex; flex-direction: column; gap: 8px;
-  }
-  .canvas-controls button {
-    width: 38px; height: 38px; border-radius: 10px;
-    border: 1px solid var(--border); background: var(--card);
-    color: var(--text); font-size: 18px; cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    transition: background .15s;
-  }
-  .canvas-controls button:hover { background: var(--border); }
+  .topic-editor{display:flex;gap:8px;align-items:center;}
+  .topic-editor input{margin:0;flex:1;font-size:13px;padding:8px 12px;}
+  .topic-editor button{padding:8px 12px;border-radius:8px;border:1px solid var(--accent);background:transparent;color:var(--accent);font-size:13px;cursor:pointer;}
+  .code-display{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center;}
+  .code-display .code-big{font-size:32px;font-weight:800;letter-spacing:.2em;color:var(--accent3);font-family:monospace;}
+  .code-display .code-label{font-size:11px;color:var(--muted);margin-top:2px;}
+  .students-list{display:flex;flex-direction:column;gap:4px;}
+  .student-chip{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);padding:3px 0;}
+  .student-chip .s-dot{width:6px;height:6px;border-radius:50%;background:var(--accent3);flex-shrink:0;}
+  .color-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;}
+  .color-swatch{width:20px;height:20px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:transform .15s;}
+  .color-swatch:hover{transform:scale(1.2);}
+  .color-swatch.selected{border-color:#fff;}
 
-  .topic-editor { display: flex; gap: 8px; align-items: center; }
-  .topic-editor input { margin: 0; flex: 1; font-size: 13px; padding: 8px 12px; }
-  .topic-editor button {
-    padding: 8px 12px; border-radius: 8px;
-    border: 1px solid var(--accent); background: transparent;
-    color: var(--accent); font-size: 13px; cursor: pointer; white-space: nowrap;
-  }
+  /* STUDENT */
+  #student-screen{flex-direction:column;}
+  .student-body{flex:1;display:flex;flex-direction:column;align-items:center;padding:24px 16px;overflow-y:auto;}
+  .student-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px;width:100%;max-width:480px;margin-bottom:20px;}
+  .student-card h3{font-size:15px;font-weight:600;margin-bottom:4px;}
+  .topic-display{font-size:22px;font-weight:700;color:var(--accent2);margin:12px 0 20px;line-height:1.3;}
+  .idea-form{display:flex;flex-direction:column;gap:10px;}
+  .idea-form textarea{width:100%;padding:12px 14px;background:var(--surface);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:15px;resize:none;outline:none;font-family:inherit;height:90px;transition:border-color .2s;}
+  .idea-form textarea:focus{border-color:var(--accent);}
+  .submitted-ideas{width:100%;max-width:480px;}
+  .submitted-ideas h4{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;}
+  .submitted-idea-item{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:8px;display:flex;align-items:center;gap:10px;font-size:14px;}
+  .status{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;}
+  .status.pending{background:rgba(255,179,71,.15);color:var(--accent4);}
+  .status.approved{background:rgba(0,212,170,.15);color:var(--accent3);}
+  .status.rejected{background:rgba(255,87,87,.1);color:var(--danger);}
+  .student-map-wrapper{width:100%;max-width:480px;background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:20px;}
+  .student-map-wrapper canvas{width:100%!important;}
 
-  .code-display { background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 12px; text-align: center; }
-  .code-display .code-big { font-size: 32px; font-weight: 800; letter-spacing: .2em; color: var(--accent3); font-family: monospace; }
-  .code-display .code-label { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  /* MODALS */
+  .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:500;align-items:center;justify-content:center;}
+  .modal-overlay.open{display:flex;}
+  .modal-box{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:36px 32px 28px;width:340px;text-align:left;position:relative;}
+  .modal-box h2{font-size:18px;font-weight:700;margin-bottom:6px;}
+  .modal-box p{color:var(--muted);font-size:13px;margin-bottom:24px;}
+  .modal-box label{display:block;font-size:12px;color:var(--muted);margin-bottom:5px;text-transform:uppercase;letter-spacing:.05em;}
+  .modal-box input{margin-bottom:14px;}
+  .modal-actions{display:flex;gap:10px;margin-top:6px;}
+  .modal-actions .btn-cancel{flex:1;padding:11px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:14px;cursor:pointer;}
+  .modal-actions .btn-cancel:hover{background:var(--border);}
+  .modal-actions .btn-save{flex:1;padding:11px;border-radius:10px;border:none;background:var(--accent);color:#fff;font-size:14px;font-weight:600;cursor:pointer;}
+  .modal-actions .btn-save:hover{opacity:.88;}
+  .modal-close{position:absolute;top:14px;right:16px;background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;}
+  .pw-strength{height:4px;border-radius:2px;background:var(--border);margin-bottom:14px;overflow:hidden;}
+  .pw-strength-bar{height:100%;border-radius:2px;width:0%;transition:width .25s,background .25s;}
+  .pw-ok{color:var(--accent3);font-size:12px;margin-top:-10px;margin-bottom:12px;display:none;}
 
-  .students-list { display: flex; flex-direction: column; gap: 4px; }
-  .student-chip { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); padding: 3px 0; }
-  .student-chip .s-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent3); flex-shrink: 0; }
+  /* NOTIFICATIONS */
+  #notif{position:fixed;top:16px;right:16px;z-index:999;display:flex;flex-direction:column;gap:8px;pointer-events:none;}
+  .notif-item{background:var(--card);border:1px solid var(--accent3);border-radius:10px;padding:10px 16px;font-size:14px;color:var(--accent3);animation:slideIn .3s ease;max-width:280px;}
+  .notif-item.err{border-color:var(--danger);color:var(--danger);}
+  @keyframes slideIn{from{transform:translateX(20px);opacity:0;}}
 
-  /* ── STUDENT ── */
-  #student-screen { flex-direction: column; }
-  .student-body {
-    flex: 1; display: flex; flex-direction: column;
-    align-items: center; justify-content: flex-start;
-    padding: 24px 16px; overflow-y: auto;
-  }
-  .student-card {
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 16px; padding: 28px;
-    width: 100%; max-width: 480px; margin-bottom: 20px;
-  }
-  .student-card h3 { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
-  .student-card .topic-display { font-size: 22px; font-weight: 700; color: var(--accent2); margin: 12px 0 20px; line-height: 1.3; }
-  .idea-form { display: flex; flex-direction: column; gap: 10px; }
-  .idea-form textarea {
-    width: 100%; padding: 12px 14px;
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 10px; color: var(--text); font-size: 15px;
-    resize: none; outline: none; font-family: inherit;
-    height: 90px; transition: border-color .2s;
-  }
-  .idea-form textarea:focus { border-color: var(--accent); }
-  .submitted-ideas { width: 100%; max-width: 480px; }
-  .submitted-ideas h4 { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 10px; }
-  .submitted-idea-item {
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 10px; padding: 10px 14px;
-    margin-bottom: 8px; display: flex; align-items: center; gap: 10px; font-size: 14px;
-  }
-  .status { width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0; }
-  .status.pending { background: rgba(255,179,71,.15); color: var(--accent4); }
-  .status.approved { background: rgba(0,212,170,.15); color: var(--accent3); }
-  .status.rejected { background: rgba(255,87,87,.1); color: var(--danger); }
-
-  .student-map-wrapper {
-    width: 100%; max-width: 480px;
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 16px; overflow: hidden; margin-bottom: 20px;
-  }
-  .student-map-wrapper canvas { width: 100% !important; }
-
-  /* ── MODALS ── */
-  .modal-overlay {
-    display: none; position: fixed; inset: 0;
-    background: rgba(0,0,0,.65); z-index: 500;
-    align-items: center; justify-content: center;
-  }
-  .modal-overlay.open { display: flex; }
-  .modal-box {
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 18px; padding: 36px 32px 28px;
-    width: 340px; text-align: left; position: relative;
-  }
-  .modal-box h2 { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
-  .modal-box p { color: var(--muted); font-size: 13px; margin-bottom: 24px; }
-  .modal-box label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 5px; text-transform: uppercase; letter-spacing: .05em; }
-  .modal-box input { margin-bottom: 14px; }
-  .modal-actions { display: flex; gap: 10px; margin-top: 6px; }
-  .modal-actions .btn-cancel {
-    flex: 1; padding: 11px; border-radius: 10px;
-    border: 1px solid var(--border); background: transparent;
-    color: var(--muted); font-size: 14px; cursor: pointer; transition: background .15s;
-  }
-  .modal-actions .btn-cancel:hover { background: var(--border); }
-  .modal-actions .btn-save {
-    flex: 1; padding: 11px; border-radius: 10px;
-    border: none; background: var(--accent);
-    color: #fff; font-size: 14px; font-weight: 600; cursor: pointer; transition: opacity .15s;
-  }
-  .modal-actions .btn-save:hover { opacity: .88; }
-  .modal-close { position: absolute; top: 14px; right: 16px; background: none; border: none; color: var(--muted); font-size: 20px; cursor: pointer; line-height: 1; }
-  .modal-close:hover { color: var(--text); }
-  .pw-strength { height: 4px; border-radius: 2px; background: var(--border); margin-bottom: 14px; overflow: hidden; }
-  .pw-strength-bar { height: 100%; border-radius: 2px; width: 0%; transition: width .25s, background .25s; }
-  .pw-ok { color: var(--accent3); font-size: 12px; margin-top: -10px; margin-bottom: 12px; display: none; }
-
-  .color-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
-  .color-swatch { width: 20px; height: 20px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; transition: transform .15px; }
-  .color-swatch:hover { transform: scale(1.2); }
-  .color-swatch.selected { border-color: #fff; }
-
-  /* ── NOTIFICATIONS ── */
-  #notif { position: fixed; top: 16px; right: 16px; z-index: 999; display: flex; flex-direction: column; gap: 8px; pointer-events: none; }
-  .notif-item {
-    background: var(--card); border: 1px solid var(--accent3);
-    border-radius: 10px; padding: 10px 16px; font-size: 14px;
-    color: var(--accent3); animation: slideIn .3s ease;
-    pointer-events: auto; max-width: 280px;
-  }
-  .notif-item.err { border-color: var(--danger); color: var(--danger); }
-  @keyframes slideIn { from { transform: translateX(20px); opacity: 0; } }
-
-  /* ── CONNECTING OVERLAY ── */
-  #connecting {
-    position: fixed; inset: 0; background: var(--bg);
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    z-index: 999; gap: 16px;
-  }
-  #connecting.hidden { display: none; }
-  .spinner {
-    width: 40px; height: 40px; border-radius: 50%;
-    border: 3px solid var(--border);
-    border-top-color: var(--accent);
-    animation: spin .8s linear infinite;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  #connecting p { color: var(--muted); font-size: 14px; }
+  /* LOADING */
+  #loading{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999;gap:16px;}
+  #loading.hidden{display:none;}
+  .spinner{width:40px;height:40px;border-radius:50%;border:3px solid var(--border);border-top-color:var(--accent);animation:spin .8s linear infinite;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  #loading p{color:var(--muted);font-size:14px;}
 </style>
 </head>
 <body>
 
-<!-- CONNECTING -->
-<div id="connecting">
+<div id="loading">
   <div class="brand-dot">🧠</div>
   <div class="spinner"></div>
-  <p id="connecting-msg">Kobler til Firebase…</p>
+  <p id="loading-msg">Kobler til…</p>
 </div>
 
-<!-- NOTIFICATIONS -->
 <div id="notif"></div>
 
-<!-- ══════════════════════════════════════════ -->
-<!--  LOGIN                                    -->
-<!-- ══════════════════════════════════════════ -->
+<!-- LOGIN -->
 <div id="login-screen" class="screen">
   <div class="login-box">
     <div class="brand-dot">🧠</div>
@@ -317,13 +152,13 @@
       <button class="tab-btn" id="tab-teacher" onclick="switchTab('teacher')">Lærer</button>
     </div>
     <div id="student-login">
-      <input type="text" id="student-name" placeholder="Ditt navn" maxlength="30" />
-      <input type="text" id="join-code" placeholder="Kode fra tavlen (f.eks. ABC1)" maxlength="6" style="text-transform:uppercase;letter-spacing:.1em;" />
+      <input type="text" id="student-name" placeholder="Ditt navn" maxlength="30"/>
+      <input type="text" id="join-code" placeholder="Kode fra tavlen" maxlength="6" style="text-transform:uppercase;letter-spacing:.1em;"/>
       <button class="btn-main" id="join-btn" onclick="joinAsStudent()">Bli med →</button>
       <div class="error-msg" id="student-error"></div>
     </div>
     <div id="teacher-login" style="display:none">
-      <input type="password" id="teacher-pass" placeholder="Lærerkode" maxlength="60" onkeydown="if(event.key==='Enter')loginAsTeacher()" />
+      <input type="password" id="teacher-pass" placeholder="Lærerkode" maxlength="60" onkeydown="if(event.key==='Enter')loginAsTeacher()"/>
       <button class="btn-main" onclick="loginAsTeacher()">Logg inn som lærer →</button>
       <div class="error-msg" id="teacher-error"></div>
       <div class="hint" id="login-hint">Standard lærerkode: <b>laerer123</b></div>
@@ -331,9 +166,7 @@
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════ -->
-<!--  TEACHER                                  -->
-<!-- ══════════════════════════════════════════ -->
+<!-- TEACHER -->
 <div id="teacher-screen" class="screen">
   <div class="top-bar">
     <h2>🧠 Tankekart – Lærerpanel</h2>
@@ -355,7 +188,7 @@
       <div class="sidebar-section">
         <h3>Tema</h3>
         <div class="topic-editor">
-          <input type="text" id="topic-input" placeholder="Skriv inn tema…" maxlength="60" onkeydown="if(event.key==='Enter')setTopic()" />
+          <input type="text" id="topic-input" placeholder="Skriv inn tema…" maxlength="60" onkeydown="if(event.key==='Enter')setTopic()"/>
           <button onclick="setTopic()">Sett</button>
         </div>
       </div>
@@ -369,10 +202,10 @@
         <div class="students-list" id="students-list"><span class="empty-state">Ingen ennå</span></div>
       </div>
       <div class="sidebar-scroll">
-        <h3 style="font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:12px;">Venter på godkjenning (<span id="pending-count">0</span>)</h3>
-        <div class="pending-list" id="pending-list">
-          <div class="empty-state">Ingen forslag ennå</div>
-        </div>
+        <h3 style="font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:12px;">
+          Venter på godkjenning (<span id="pending-count">0</span>)
+        </h3>
+        <div class="pending-list" id="pending-list"><div class="empty-state">Ingen forslag ennå</div></div>
       </div>
     </div>
     <div class="canvas-area" id="teacher-canvas-area">
@@ -386,9 +219,7 @@
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════ -->
-<!--  STUDENT                                  -->
-<!-- ══════════════════════════════════════════ -->
+<!-- STUDENT -->
 <div id="student-screen" class="screen">
   <div class="top-bar">
     <h2>🧠 Tankekart</h2>
@@ -396,9 +227,7 @@
     <button class="btn-sm danger" onclick="logout()">Forlat</button>
   </div>
   <div class="student-body">
-    <div class="student-map-wrapper">
-      <canvas id="student-canvas" height="220"></canvas>
-    </div>
+    <div class="student-map-wrapper"><canvas id="student-canvas" height="220"></canvas></div>
     <div class="student-card">
       <h3>Tema</h3>
       <div class="topic-display" id="student-topic">Venter på lærer…</div>
@@ -416,9 +245,7 @@
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════ -->
-<!--  MODALS                                   -->
-<!-- ══════════════════════════════════════════ -->
+<!-- CONFIRM MODAL -->
 <div class="modal-overlay" id="confirm-overlay">
   <div class="modal-box" style="max-width:320px;text-align:center;">
     <div style="font-size:28px;margin-bottom:12px;">⚠️</div>
@@ -431,18 +258,19 @@
   </div>
 </div>
 
+<!-- PASSWORD MODAL -->
 <div class="modal-overlay" id="pw-modal">
   <div class="modal-box">
     <button class="modal-close" onclick="closeChangePassword()">×</button>
     <h2>🔑 Endre lærerkode</h2>
     <p>Koden lagres i Firebase og gjelder alle enheter.</p>
     <label>Nåværende kode</label>
-    <input type="password" id="pw-current" placeholder="Nåværende kode" maxlength="60" oninput="clearPwError()" />
+    <input type="password" id="pw-current" placeholder="Nåværende kode" maxlength="60" oninput="clearPwError()"/>
     <label>Ny kode</label>
-    <input type="password" id="pw-new" placeholder="Minst 4 tegn" maxlength="60" oninput="onNewPwInput()" />
+    <input type="password" id="pw-new" placeholder="Minst 4 tegn" maxlength="60" oninput="onNewPwInput()"/>
     <div class="pw-strength"><div class="pw-strength-bar" id="pw-strength-bar"></div></div>
     <label>Bekreft ny kode</label>
-    <input type="password" id="pw-confirm" placeholder="Gjenta ny kode" maxlength="60" oninput="clearPwError()" />
+    <input type="password" id="pw-confirm" placeholder="Gjenta ny kode" maxlength="60" oninput="clearPwError()"/>
     <div class="pw-ok" id="pw-match-ok">✓ Kodene stemmer</div>
     <div class="error-msg" id="pw-error"></div>
     <div class="modal-actions">
@@ -452,618 +280,489 @@
   </div>
 </div>
 
-<!-- Firebase SDK via cdnjs -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/10.14.1/firebase-app-compat.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/10.14.1/firebase-database-compat.min.js"></script>
-
 <script>
-// ══════════════════════════════════════════════
-//  FIREBASE INIT
-// ══════════════════════════════════════════════
-const firebaseConfig = {
-  apiKey: "AIzaSyDyHubQX3SDoGAKVRsRWYd-svnThDg90hM",
-  authDomain: "tankekart-b55dc.firebaseapp.com",
-  databaseURL: "https://tankekart-b55dc-default-rtdb.firebaseio.com",
-  projectId: "tankekart-b55dc",
-  storageBucket: "tankekart-b55dc.firebasestorage.app",
-  messagingSenderId: "10647750278",
-  appId: "1:10647750278:web:db5b972a49c3877b7eb307",
-  measurementId: "G-3XTL5DPF9N"
-};
-
-firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
-
-// ══════════════════════════════════════════════
-//  CONSTANTS & STATE
-// ══════════════════════════════════════════════
-const PALETTE = ['#6c63ff','#ff6b9d','#00d4aa','#ffb347','#4fc3f7','#a78bfa','#f97316','#34d399'];
+// ═══════════════════════════════════════════
+//  CONFIG
+// ═══════════════════════════════════════════
+const FB_URL = 'https://tankekart-b55dc-default-rtdb.firebaseio.com';
 const DEFAULT_PASS = 'laerer123';
+const PALETTE = ['#6c63ff','#ff6b9d','#00d4aa','#ffb347','#4fc3f7','#a78bfa','#f97316','#34d399'];
 
-const state = {
-  role: null,
-  studentName: '',
-  myIdeas: [],           // local only for student
-  offsetX: 0, offsetY: 0, scale: 1,
-  dragging: false, dragStartX: 0, dragStartY: 0,
-  selectedNode: null, selectedColor: PALETTE[0],
-  pollTimer: null,
-  // live data from Firebase:
-  roomCode: '—',
-  topic: '',
-  paused: false,
-  nodes: [],
-  pending: [],
-  students: {},
-  teacherPass: DEFAULT_PASS,
+// ═══════════════════════════════════════════
+//  FIREBASE REST HELPERS
+// ═══════════════════════════════════════════
+async function fbGet(path) {
+  const r = await fetch(`${FB_URL}/${path}.json`);
+  if (!r.ok) throw new Error('GET feilet: ' + r.status);
+  return r.json();
+}
+async function fbSet(path, data) {
+  const r = await fetch(`${FB_URL}/${path}.json`, {
+    method:'PUT', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data)
+  });
+  if (!r.ok) throw new Error('SET feilet: ' + r.status);
+  return r.json();
+}
+async function fbUpdate(path, data) {
+  const r = await fetch(`${FB_URL}/${path}.json`, {
+    method:'PATCH', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data)
+  });
+  if (!r.ok) throw new Error('UPDATE feilet: ' + r.status);
+  return r.json();
+}
+async function fbPush(path, data) {
+  const r = await fetch(`${FB_URL}/${path}.json`, {
+    method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data)
+  });
+  if (!r.ok) throw new Error('PUSH feilet: ' + r.status);
+  return r.json(); // returns {name: key}
+}
+async function fbDelete(path) {
+  await fetch(`${FB_URL}/${path}.json`, { method:'DELETE' });
+}
+
+// Long-polling with SSE (Firebase streaming)
+function fbListen(path, cb) {
+  const url = `${FB_URL}/${path}.json`;
+  let es;
+  function connect() {
+    es = new EventSource(url);
+    es.addEventListener('put', e => {
+      try { const d = JSON.parse(e.data); cb(d.data); } catch(err){}
+    });
+    es.addEventListener('patch', e => {
+      try { const d = JSON.parse(e.data); cb(null, d.data); } catch(err){}
+    });
+    es.onerror = () => { es.close(); setTimeout(connect, 3000); };
+  }
+  connect();
+  return () => es && es.close();
+}
+
+// ═══════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════
+const S = {
+  role: null, studentName: '',
+  meta: { roomCode:'—', topic:'', paused:false, teacherPass:DEFAULT_PASS },
+  nodes: {}, pending: {}, students: {},
+  myIdeas: [],
+  offsetX:0, offsetY:0, scale:1,
+  dragging:false, dragStartX:0, dragStartY:0,
+  selectedNode:null, selectedColor:PALETTE[0],
 };
-
-// Firebase refs
-const rootRef   = db.ref('tankekart');
-const metaRef   = db.ref('tankekart/meta');
-const nodesRef  = db.ref('tankekart/nodes');
-const pendingRef = db.ref('tankekart/pending');
-const studentsRef = db.ref('tankekart/students');
-
-// ── Canvas globals ──
 let tc, tctx;
+let stopListeners = [];
 
-// ══════════════════════════════════════════════
-//  STARTUP
-// ══════════════════════════════════════════════
-let booted = false;
-
-async function bootApp() {
-  if (booted) return;
-  booted = true;
-
+// ═══════════════════════════════════════════
+//  BOOT
+// ═══════════════════════════════════════════
+async function boot() {
   try {
-    // Ensure meta exists
-    const metaSnap = await metaRef.once('value');
-    if (!metaSnap.exists()) {
-      await metaRef.set({
-        roomCode: generateCode(),
-        topic: '',
-        paused: false,
-        teacherPass: DEFAULT_PASS,
-      });
+    let meta = await fbGet('meta');
+    if (!meta) {
+      meta = { roomCode: generateCode(), topic:'', paused:false, teacherPass:DEFAULT_PASS };
+      await fbSet('meta', meta);
     }
-
-    // Listen to meta
-    metaRef.on('value', snap => {
-      const m = snap.val() || {};
-      state.roomCode    = m.roomCode    || '—';
-      state.topic       = m.topic       || '';
-      state.paused      = m.paused      || false;
-      state.teacherPass = m.teacherPass || DEFAULT_PASS;
-      syncUI();
-    });
-
-    // Listen to nodes
-    nodesRef.on('value', snap => {
-      const raw = snap.val() || {};
-      state.nodes = Object.values(raw);
-      drawTeacherMap();
-      drawStudentMap();
-    });
-
-    // Listen to pending
-    pendingRef.on('value', snap => {
-      const raw = snap.val() || {};
-      state.pending = Object.entries(raw).map(([k,v]) => ({...v, fbKey: k}));
-      renderPendingList();
-    });
-
-    // Listen to students
-    studentsRef.on('value', snap => {
-      state.students = snap.val() || {};
-      renderStudentList();
-    });
-
-    // Hide connecting, show login
-    document.getElementById('connecting').classList.add('hidden');
-
+    S.meta = meta;
+    document.getElementById('loading').classList.add('hidden');
+    showScreen('login-screen');
   } catch(e) {
-    document.getElementById('connecting-msg').textContent = 'Feil: ' + e.message;
-    console.error('Firebase boot error:', e);
+    document.getElementById('loading-msg').textContent = 'Feil: ' + e.message + ' – sjekk Firebase-regler';
+    console.error(e);
   }
 }
 
-// Start as soon as Firebase is ready — with a fallback timeout
-function tryBoot() {
-  bootApp();
-}
+window.addEventListener('load', boot);
 
-// Try immediately when page loads, then retry once after 2s as fallback
-window.addEventListener('load', () => {
-  setTimeout(tryBoot, 300);
-});
-
-// Also listen for connection state for visual feedback only
-db.ref('.info/connected').on('value', snap => {
-  if (snap.val() === true) {
-    tryBoot();
-  }
-});
-
-function syncUI() {
-  // Teacher
-  if (state.role === 'teacher') {
-    document.getElementById('room-code-display').textContent = state.roomCode;
-    document.getElementById('topic-input').value = state.topic;
-    const btn = document.getElementById('pause-btn');
-    btn.textContent = state.paused ? '▶ Fortsett' : '⏸ Pause';
-    drawTeacherMap();
-  }
-  // Student
-  if (state.role === 'student') {
-    document.getElementById('student-topic').textContent = state.topic || 'Venter på lærer…';
-    const paused = state.paused;
-    document.getElementById('pause-notice').style.display = paused ? '' : 'none';
-    const sb = document.getElementById('submit-btn');
-    sb.disabled = paused;
-    sb.style.opacity = paused ? '0.5' : '1';
-  }
-}
-
-// ══════════════════════════════════════════════
+// ═══════════════════════════════════════════
 //  HELPERS
-// ══════════════════════════════════════════════
+// ═══════════════════════════════════════════
 function generateCode() {
-  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-  let c = ''; for (let i=0;i<4;i++) c += chars[Math.floor(Math.random()*chars.length)];
-  return c;
+  const c='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let s=''; for(let i=0;i<4;i++) s+=c[Math.floor(Math.random()*c.length)]; return s;
 }
-function escHtml(s) {
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+function escHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function notify(msg,isErr){
+  const d=document.createElement('div');
+  d.className='notif-item'+(isErr?' err':'');
+  d.textContent=msg;
+  document.getElementById('notif').appendChild(d);
+  setTimeout(()=>d.remove(),3200);
 }
-function notify(msg, isErr) {
-  const div = document.createElement('div');
-  div.className = 'notif-item' + (isErr ? ' err' : '');
-  div.textContent = msg;
-  document.getElementById('notif').appendChild(div);
-  setTimeout(() => div.remove(), 3200);
-}
-function showScreen(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  if (id === 'teacher-screen') setTimeout(resizeTeacherCanvas, 50);
-  if (id === 'student-screen') setTimeout(() => { setupStudentCanvas(); drawStudentMap(); }, 50);
+  if(id==='teacher-screen') setTimeout(resizeTeacherCanvas,50);
+  if(id==='student-screen') setTimeout(()=>{setupStudentCanvas();drawStudentMap();},50);
+}
+function switchTab(t){
+  document.getElementById('tab-student').classList.toggle('active',t==='student');
+  document.getElementById('tab-teacher').classList.toggle('active',t==='teacher');
+  document.getElementById('student-login').style.display=t==='student'?'':'none';
+  document.getElementById('teacher-login').style.display=t==='teacher'?'':'none';
 }
 
-// ══════════════════════════════════════════════
+// ═══════════════════════════════════════════
 //  LOGIN
-// ══════════════════════════════════════════════
-let loginTab = 'student';
-function switchTab(t) {
-  loginTab = t;
-  document.getElementById('tab-student').classList.toggle('active', t==='student');
-  document.getElementById('tab-teacher').classList.toggle('active', t==='teacher');
-  document.getElementById('student-login').style.display = t==='student' ? '' : 'none';
-  document.getElementById('teacher-login').style.display = t==='teacher' ? '' : 'none';
-}
-
-async function loginAsTeacher() {
-  const pass = document.getElementById('teacher-pass').value.trim();
-  if (pass !== state.teacherPass) {
-    document.getElementById('teacher-error').textContent = 'Feil kode. Prøv igjen.';
-    return;
-  }
-  state.role = 'teacher';
+// ═══════════════════════════════════════════
+async function loginAsTeacher(){
+  const pass=document.getElementById('teacher-pass').value.trim();
+  if(pass!==S.meta.teacherPass){ document.getElementById('teacher-error').textContent='Feil kode.'; return; }
+  S.role='teacher';
   showScreen('teacher-screen');
-  document.getElementById('room-code-display').textContent = state.roomCode;
-  document.getElementById('topic-input').value = state.topic;
+  document.getElementById('room-code-display').textContent=S.meta.roomCode;
+  document.getElementById('topic-input').value=S.meta.topic||'';
+  document.getElementById('pause-btn').textContent=S.meta.paused?'▶ Fortsett':'⏸ Pause';
   buildColorPicker();
-  resizeTeacherCanvas();
-  renderStudentList();
-  renderPendingList();
+  startTeacherListeners();
 }
 
-async function joinAsStudent() {
-  const name = document.getElementById('student-name').value.trim();
-  const code = document.getElementById('join-code').value.trim().toUpperCase();
-  const err  = document.getElementById('student-error');
-  if (!name) { err.textContent = 'Skriv inn navnet ditt.'; return; }
-  if (!code) { err.textContent = 'Skriv inn koden.'; return; }
-  if (code !== state.roomCode) { err.textContent = 'Feil kode. Sjekk tavlen.'; return; }
-
-  const btn = document.getElementById('join-btn');
-  btn.disabled = true; btn.textContent = 'Kobler til…';
-
-  state.role = 'student';
-  state.studentName = name;
-
-  // Register presence with onDisconnect cleanup
-  const myRef = studentsRef.child(name.replace(/[.#$/[\]]/g,'_'));
-  await myRef.set({ name, joined: Date.now() });
-  myRef.onDisconnect().remove();
-
-  btn.disabled = false; btn.textContent = 'Bli med →';
-
-  showScreen('student-screen');
-  document.getElementById('student-badge').textContent = name;
-  document.getElementById('student-topic').textContent = state.topic || 'Venter på lærer…';
+async function joinAsStudent(){
+  const name=document.getElementById('student-name').value.trim();
+  const code=document.getElementById('join-code').value.trim().toUpperCase();
+  const err=document.getElementById('student-error');
+  if(!name){err.textContent='Skriv inn navnet ditt.';return;}
+  if(!code){err.textContent='Skriv inn koden.';return;}
+  if(code!==S.meta.roomCode){err.textContent='Feil kode. Sjekk tavlen.';return;}
+  const btn=document.getElementById('join-btn');
+  btn.disabled=true; btn.textContent='Kobler til…';
+  try {
+    const safeKey=name.replace(/[^a-zA-Z0-9æøåÆØÅ]/g,'_');
+    await fbSet('students/'+safeKey, {name, joined:Date.now()});
+    S.role='student'; S.studentName=name; S.safeKey=safeKey;
+    // Heartbeat to keep presence
+    S.heartbeat=setInterval(()=>fbSet('students/'+safeKey+'/ts', Date.now()), 15000);
+    showScreen('student-screen');
+    document.getElementById('student-badge').textContent=name;
+    startStudentListeners();
+  } catch(e){ err.textContent='Tilkoblingsfeil: '+e.message; }
+  btn.disabled=false; btn.textContent='Bli med →';
 }
 
-function logout() {
-  if (state.role === 'student') {
-    const key = state.studentName.replace(/[.#$/[\]]/g,'_');
-    studentsRef.child(key).remove();
+function logout(){
+  stopListeners.forEach(fn=>fn());
+  stopListeners=[];
+  if(S.role==='student'){
+    clearInterval(S.heartbeat);
+    fbDelete('students/'+S.safeKey);
   }
-  state.role = null;
-  state.studentName = '';
-  state.myIdeas = [];
+  S.role=null; S.studentName=''; S.myIdeas=[];
   showScreen('login-screen');
 }
 
-// ══════════════════════════════════════════════
+// ═══════════════════════════════════════════
+//  LISTENERS
+// ═══════════════════════════════════════════
+function startTeacherListeners(){
+  stopListeners.push(fbListen('meta', data=>{
+    if(!data) return;
+    S.meta=data;
+    document.getElementById('room-code-display').textContent=data.roomCode||'—';
+    document.getElementById('pause-btn').textContent=data.paused?'▶ Fortsett':'⏸ Pause';
+  }));
+  stopListeners.push(fbListen('nodes', data=>{
+    S.nodes=data||{};
+    drawTeacherMap();
+  }));
+  stopListeners.push(fbListen('pending', data=>{
+    S.pending=data||{};
+    renderPendingList();
+  }));
+  stopListeners.push(fbListen('students', data=>{
+    S.students=data||{};
+    renderStudentList();
+  }));
+}
+
+function startStudentListeners(){
+  stopListeners.push(fbListen('meta', data=>{
+    if(!data) return;
+    S.meta=data;
+    document.getElementById('student-topic').textContent=data.topic||'Venter på lærer…';
+    const paused=data.paused||false;
+    document.getElementById('pause-notice').style.display=paused?'':'none';
+    const sb=document.getElementById('submit-btn');
+    sb.disabled=paused; sb.style.opacity=paused?'0.5':'1';
+  }));
+  stopListeners.push(fbListen('nodes', data=>{
+    S.nodes=data||{};
+    drawStudentMap();
+  }));
+  // Watch for approval/rejection of my ideas
+  stopListeners.push(fbListen('approved', data=>{
+    if(!data) return;
+    S.myIdeas.forEach(idea=>{
+      if(idea.status==='pending' && data[idea.fbKey]) idea.status='approved';
+    });
+    renderMyIdeas();
+  }));
+  stopListeners.push(fbListen('rejected', data=>{
+    if(!data) return;
+    S.myIdeas.forEach(idea=>{
+      if(idea.status==='pending' && data[idea.fbKey]) idea.status='rejected';
+    });
+    renderMyIdeas();
+  }));
+}
+
+// ═══════════════════════════════════════════
 //  TEACHER ACTIONS
-// ══════════════════════════════════════════════
-async function setTopic() {
-  const val = document.getElementById('topic-input').value.trim();
-  if (!val) return;
-  const centerNode = { id: 'n0', text: val, x: 0, y: 0, color: PALETTE[0], parentId: null, submitter: 'Lærer' };
-  await metaRef.update({ topic: val });
-  await nodesRef.set({ n0: centerNode });
-  notify('Tema satt: ' + val);
+// ═══════════════════════════════════════════
+async function setTopic(){
+  const val=document.getElementById('topic-input').value.trim();
+  if(!val) return;
+  const center={id:'n0',text:val,x:0,y:0,color:PALETTE[0],parentId:null,submitter:'Lærer'};
+  await fbUpdate('meta',{topic:val});
+  await fbSet('nodes',{n0:center});
+  notify('Tema satt: '+val);
 }
 
-async function togglePause() {
-  await metaRef.update({ paused: !state.paused });
+async function togglePause(){
+  const newVal=!S.meta.paused;
+  await fbUpdate('meta',{paused:newVal});
+  notify(newVal?'⏸ Innlevering pauset':'▶ Innlevering åpnet');
 }
 
-function openClearConfirm() {
-  document.getElementById('confirm-msg').textContent = 'Nullstille hele kartet? Dette kan ikke angres.';
+function openClearConfirm(){
+  document.getElementById('confirm-msg').textContent='Nullstille hele kartet? Dette kan ikke angres.';
   document.getElementById('confirm-overlay').classList.add('open');
-  document.getElementById('confirm-yes').onclick = async () => {
+  document.getElementById('confirm-yes').onclick=async()=>{
     document.getElementById('confirm-overlay').classList.remove('open');
-    await nodesRef.remove();
-    await pendingRef.remove();
-    await metaRef.update({ topic: '', paused: false });
-    document.getElementById('topic-input').value = '';
-    if (tc) centerView(tc);
+    await fbDelete('nodes');
+    await fbDelete('pending');
+    await fbDelete('approved');
+    await fbDelete('rejected');
+    await fbUpdate('meta',{topic:'',paused:false});
+    document.getElementById('topic-input').value='';
+    if(tc) centerView(tc);
     notify('🗑 Kartet er nullstilt');
   };
-  document.getElementById('confirm-no').onclick = () => {
-    document.getElementById('confirm-overlay').classList.remove('open');
-  };
+  document.getElementById('confirm-no').onclick=()=>document.getElementById('confirm-overlay').classList.remove('open');
 }
 
-async function approveIdea(fbKey, idea) {
-  // Remove from pending
-  await pendingRef.child(fbKey).remove();
-
-  // Add node
-  const count = state.nodes.length;
-  const angle = count * 137.5 * Math.PI / 180;
-  const ring  = Math.floor(count / 8) + 1;
-  const dist  = 160 * ring;
-  const nodeId = 'n' + Date.now();
-  const node = {
-    id: nodeId,
-    text: idea.text,
-    x: Math.round(Math.cos(angle) * dist),
-    y: Math.round(Math.sin(angle) * dist),
-    color: PALETTE[count % PALETTE.length],
-    parentId: 'n0',
-    submitter: idea.submitter,
-  };
-  await nodesRef.child(nodeId).set(node);
-
-  // Mark approved for student status tracking
-  await db.ref('tankekart/approved/' + fbKey).set(true);
+async function approveIdea(fbKey, text, submitter){
+  await fbDelete('pending/'+fbKey);
+  const nodes=S.nodes||{};
+  const count=Object.keys(nodes).length;
+  const angle=count*137.5*Math.PI/180;
+  const ring=Math.floor(count/8)+1;
+  const dist=160*ring;
+  const nodeId='n'+Date.now();
+  await fbSet('nodes/'+nodeId,{
+    id:nodeId, text, submitter,
+    x:Math.round(Math.cos(angle)*dist),
+    y:Math.round(Math.sin(angle)*dist),
+    color:PALETTE[count%PALETTE.length],
+    parentId:'n0'
+  });
+  await fbSet('approved/'+fbKey, true);
   notify('✓ Idé godkjent!');
 }
 
-async function rejectIdea(fbKey) {
-  await pendingRef.child(fbKey).remove();
-  await db.ref('tankekart/rejected/' + fbKey).set(true);
+async function rejectIdea(fbKey){
+  await fbDelete('pending/'+fbKey);
+  await fbSet('rejected/'+fbKey, true);
   notify('Idé avvist');
 }
 
-// ══════════════════════════════════════════════
+// ═══════════════════════════════════════════
 //  STUDENT ACTIONS
-// ══════════════════════════════════════════════
-async function submitIdea() {
-  if (state.paused) return;
-  const text = document.getElementById('idea-input').value.trim();
-  const err  = document.getElementById('idea-error');
-  if (!text) { err.textContent = 'Skriv inn en idé.'; return; }
-  if (text.length < 2) { err.textContent = 'Idéen er for kort.'; return; }
-  err.textContent = '';
-
-  const btn = document.getElementById('submit-btn');
-  btn.disabled = true;
-
-  const ref = await pendingRef.push({ text, submitter: state.studentName, ts: Date.now() });
-  const fbKey = ref.key;
-
-  state.myIdeas.push({ text, status: 'pending', fbKey });
-  document.getElementById('idea-input').value = '';
-  document.getElementById('submitted-ideas-section').style.display = '';
-  renderMyIdeas();
-  notify('Idé sendt! 🎉 Venter på godkjenning.');
-
-  // Listen for approval/rejection of this specific idea
-  db.ref('tankekart/approved/' + fbKey).on('value', snap => {
-    if (snap.val()) {
-      const idea = state.myIdeas.find(i => i.fbKey === fbKey);
-      if (idea && idea.status === 'pending') { idea.status = 'approved'; renderMyIdeas(); }
-    }
-  });
-  db.ref('tankekart/rejected/' + fbKey).on('value', snap => {
-    if (snap.val()) {
-      const idea = state.myIdeas.find(i => i.fbKey === fbKey);
-      if (idea && idea.status === 'pending') { idea.status = 'rejected'; renderMyIdeas(); }
-    }
-  });
-
-  btn.disabled = false;
+// ═══════════════════════════════════════════
+async function submitIdea(){
+  if(S.meta.paused) return;
+  const text=document.getElementById('idea-input').value.trim();
+  const err=document.getElementById('idea-error');
+  if(!text){err.textContent='Skriv inn en idé.';return;}
+  if(text.length<2){err.textContent='Idéen er for kort.';return;}
+  err.textContent='';
+  const btn=document.getElementById('submit-btn');
+  btn.disabled=true;
+  try {
+    const res=await fbPush('pending',{text,submitter:S.studentName,ts:Date.now()});
+    const fbKey=res.name;
+    S.myIdeas.push({text,status:'pending',fbKey});
+    document.getElementById('idea-input').value='';
+    document.getElementById('submitted-ideas-section').style.display='';
+    renderMyIdeas();
+    notify('Idé sendt! 🎉');
+  } catch(e){ err.textContent='Feil: '+e.message; }
+  btn.disabled=false;
 }
 
-function updatePendingStatuses() {
-  // Triggered when pending list changes — re-check local myIdeas
-  state.myIdeas.forEach(idea => {
-    if (idea.status === 'pending') {
-      const stillPending = state.pending.find(p => p.fbKey === idea.fbKey);
-      // Presence in pending means still waiting; absence handled by approved/rejected listeners
-    }
-  });
-}
-
-function renderMyIdeas() {
-  const list = document.getElementById('my-ideas-list');
-  if (state.myIdeas.length === 0) { list.innerHTML = ''; return; }
-  list.innerHTML = state.myIdeas.slice().reverse().map(i => {
-    const smap = { pending:'⏳', approved:'✓', rejected:'✕' };
-    const cmap = { pending:'pending', approved:'approved', rejected:'rejected' };
-    return `<div class="submitted-idea-item">
-      <div class="status ${cmap[i.status]}">${smap[i.status]}</div>
-      <span>${escHtml(i.text)}</span>
-    </div>`;
+function renderMyIdeas(){
+  const list=document.getElementById('my-ideas-list');
+  if(!S.myIdeas.length){list.innerHTML='';return;}
+  list.innerHTML=S.myIdeas.slice().reverse().map(i=>{
+    const sm={pending:'⏳',approved:'✓',rejected:'✕'};
+    const cm={pending:'pending',approved:'approved',rejected:'rejected'};
+    return `<div class="submitted-idea-item"><div class="status ${cm[i.status]}">${sm[i.status]}</div><span>${escHtml(i.text)}</span></div>`;
   }).join('');
 }
 
-// ══════════════════════════════════════════════
+// ═══════════════════════════════════════════
 //  RENDER LISTS
-// ══════════════════════════════════════════════
-function renderStudentList() {
-  const entries = Object.values(state.students || {});
-  const count = entries.length;
-  if (state.role === 'teacher') {
-    document.getElementById('student-count').textContent = count + (count===1?' elev':' elever');
-    const sl = document.getElementById('students-list');
-    sl.innerHTML = count === 0
-      ? '<span class="empty-state">Ingen ennå</span>'
-      : entries.map(s => `<div class="student-chip"><span class="s-dot"></span>${escHtml(s.name)}</div>`).join('');
-  }
+// ═══════════════════════════════════════════
+function renderStudentList(){
+  const entries=Object.values(S.students||{});
+  const count=entries.length;
+  document.getElementById('student-count').textContent=count+(count===1?' elev':' elever');
+  const sl=document.getElementById('students-list');
+  sl.innerHTML=count===0?'<span class="empty-state">Ingen ennå</span>':entries.map(s=>`<div class="student-chip"><span class="s-dot"></span>${escHtml(s.name)}</div>`).join('');
 }
 
-function renderPendingList() {
-  if (state.role !== 'teacher') return;
-  const pl = document.getElementById('pending-list');
-  document.getElementById('pending-count').textContent = state.pending.length;
-  if (state.pending.length === 0) {
-    pl.innerHTML = '<div class="empty-state">Ingen forslag ennå</div>';
-    return;
-  }
-  pl.innerHTML = state.pending.map(p =>
-    `<div class="pending-item">
-      <div>
-        <div class="idea-text">${escHtml(p.text)}</div>
-        <div class="submitter">${escHtml(p.submitter)}</div>
-      </div>
-      <button class="ico-btn approve" onclick="approveIdea('${p.fbKey}', ${JSON.stringify({text:p.text,submitter:p.submitter}).replace(/"/g,'&quot;')})" title="Godkjenn">✓</button>
-      <button class="ico-btn reject" onclick="rejectIdea('${p.fbKey}')" title="Avvis">✕</button>
-    </div>`
-  ).join('');
+function renderPendingList(){
+  const items=Object.entries(S.pending||{}).map(([k,v])=>({...v,fbKey:k}));
+  document.getElementById('pending-count').textContent=items.length;
+  const pl=document.getElementById('pending-list');
+  if(!items.length){pl.innerHTML='<div class="empty-state">Ingen forslag ennå</div>';return;}
+  pl.innerHTML=items.map(p=>`
+    <div class="pending-item">
+      <div><div class="idea-text">${escHtml(p.text)}</div><div class="submitter">${escHtml(p.submitter)}</div></div>
+      <button class="ico-btn approve" onclick="approveIdea('${p.fbKey}','${escHtml(p.text).replace(/'/g,"\\'")}','${escHtml(p.submitter).replace(/'/g,"\\'")}')">✓</button>
+      <button class="ico-btn reject" onclick="rejectIdea('${p.fbKey}')">✕</button>
+    </div>`).join('');
 }
 
-// ══════════════════════════════════════════════
-//  CANVAS – TEACHER
-// ══════════════════════════════════════════════
-function resizeTeacherCanvas() {
-  const area = document.getElementById('teacher-canvas-area');
-  tc = document.getElementById('teacher-canvas');
-  tc.width  = area.clientWidth;
-  tc.height = area.clientHeight;
-  tctx = tc.getContext('2d');
-  if (!state.nodes.length) centerView(tc);
+// ═══════════════════════════════════════════
+//  CANVAS
+// ═══════════════════════════════════════════
+function resizeTeacherCanvas(){
+  const area=document.getElementById('teacher-canvas-area');
+  tc=document.getElementById('teacher-canvas');
+  tc.width=area.clientWidth; tc.height=area.clientHeight;
+  tctx=tc.getContext('2d');
+  centerView(tc);
   drawTeacherMap();
   setupTeacherCanvasEvents();
 }
-
-function centerView(canvas) {
-  state.offsetX = canvas.width  / 2;
-  state.offsetY = canvas.height / 2;
-  state.scale   = 1;
+function centerView(canvas){ S.offsetX=canvas.width/2; S.offsetY=canvas.height/2; S.scale=1; }
+function screenToWorld(sx,sy){ return{x:(sx-S.offsetX)/S.scale,y:(sy-S.offsetY)/S.scale}; }
+function drawTeacherMap(){
+  if(!tctx){tc=document.getElementById('teacher-canvas');if(!tc)return;tctx=tc.getContext('2d');}
+  tctx.clearRect(0,0,tc.width,tc.height);
+  drawMapOn(tctx,tc.width,tc.height,S.offsetX,S.offsetY,S.scale,Object.values(S.nodes||{}));
 }
-
-function screenToWorld(sx, sy) {
-  return { x: (sx-state.offsetX)/state.scale, y: (sy-state.offsetY)/state.scale };
+function setupStudentCanvas(){
+  const sc=document.getElementById('student-canvas');
+  sc.width=sc.parentElement.clientWidth; sc.height=220;
 }
-
-function drawTeacherMap() {
-  if (!tctx) { tc = document.getElementById('teacher-canvas'); if (!tc) return; tctx = tc.getContext('2d'); }
-  tctx.clearRect(0, 0, tc.width, tc.height);
-  drawMapOn(tctx, tc.width, tc.height, state.offsetX, state.offsetY, state.scale, state.nodes);
+function drawStudentMap(){
+  const sc=document.getElementById('student-canvas');
+  if(!sc)return;
+  const ctx=sc.getContext('2d');
+  ctx.clearRect(0,0,sc.width,sc.height);
+  drawMapOn(ctx,sc.width,sc.height,sc.width/2,sc.height/2,0.55,Object.values(S.nodes||{}));
 }
-
-function setupTeacherCanvasEvents() {
-  tc.onmousedown = e => {
-    const {x,y} = screenToWorld(e.offsetX, e.offsetY);
-    let clicked = null;
-    state.nodes.forEach(n => { const r=n.parentId==null?52:38; if(Math.hypot(n.x-x,n.y-y)<r/state.scale) clicked=n; });
-    if (clicked) {
-      state.selectedNode = clicked.id;
-      nodesRef.child(clicked.id).update({ color: state.selectedColor });
-    } else {
-      state.selectedNode = null;
-      state.dragging = true;
-      state.dragStartX = e.clientX - state.offsetX;
-      state.dragStartY = e.clientY - state.offsetY;
-    }
-  };
-  tc.onmousemove = e => {
-    if (state.dragging) {
-      state.offsetX = e.clientX - state.dragStartX;
-      state.offsetY = e.clientY - state.dragStartY;
-      drawTeacherMap();
-    }
-  };
-  tc.onmouseup = () => { state.dragging = false; };
-  tc.onmouseleave = () => { state.dragging = false; };
-  tc.onwheel = e => {
-    e.preventDefault();
-    const f = e.deltaY < 0 ? 1.08 : 0.93;
-    state.offsetX = e.offsetX - (e.offsetX - state.offsetX)*f;
-    state.offsetY = e.offsetY - (e.offsetY - state.offsetY)*f;
-    state.scale   = Math.min(Math.max(state.scale*f, 0.15), 3);
-    drawTeacherMap();
-  };
-}
-
-function zoomIn()    { state.scale = Math.min(state.scale*1.2, 3);    drawTeacherMap(); }
-function zoomOut()   { state.scale = Math.max(state.scale*0.83,0.15); drawTeacherMap(); }
-function resetView() { if(tc) centerView(tc); drawTeacherMap(); }
-
-// ── Canvas – Student ──
-function setupStudentCanvas() {
-  const sc = document.getElementById('student-canvas');
-  sc.width = sc.parentElement.clientWidth;
-  sc.height = 220;
-  drawStudentMap();
-}
-
-function drawStudentMap() {
-  const sc = document.getElementById('student-canvas');
-  if (!sc) return;
-  const ctx = sc.getContext('2d');
-  ctx.clearRect(0, 0, sc.width, sc.height);
-  drawMapOn(ctx, sc.width, sc.height, sc.width/2, sc.height/2, 0.55, state.nodes);
-}
-
-// ── Shared draw ──
-function drawMapOn(ctx, w, h, ox, oy, sc, nodes) {
-  if (!nodes || nodes.length === 0) {
-    ctx.fillStyle = '#3a3d55';
-    ctx.font = '15px Segoe UI, sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText('Sett et tema for å starte', w/2, h/2);
-    return;
+function drawMapOn(ctx,w,h,ox,oy,sc,nodes){
+  if(!nodes||!nodes.length){
+    ctx.fillStyle='#3a3d55';ctx.font='15px Segoe UI,sans-serif';ctx.textAlign='center';
+    ctx.fillText('Sett et tema for å starte',w/2,h/2);return;
   }
-  const nodeMap = {};
-  nodes.forEach(n => nodeMap[n.id] = n);
-
-  // Edges
-  nodes.forEach(n => {
-    if (n.parentId == null) return;
-    const par = nodeMap[n.parentId]; if (!par) return;
-    const fx=par.x*sc+ox, fy=par.y*sc+oy, tx=n.x*sc+ox, ty=n.y*sc+oy;
-    const mx=(fx+tx)/2;
-    ctx.beginPath(); ctx.moveTo(fx,fy);
-    ctx.bezierCurveTo(mx,fy,mx,ty,tx,ty);
-    ctx.strokeStyle = hexAlpha(n.color||'#6c63ff',0.35);
-    ctx.lineWidth = Math.max(1,2*sc);
-    ctx.stroke();
+  const nm={};nodes.forEach(n=>nm[n.id]=n);
+  nodes.forEach(n=>{
+    if(n.parentId==null)return;
+    const p=nm[n.parentId];if(!p)return;
+    const fx=p.x*sc+ox,fy=p.y*sc+oy,tx=n.x*sc+ox,ty=n.y*sc+oy,mx=(fx+tx)/2;
+    ctx.beginPath();ctx.moveTo(fx,fy);ctx.bezierCurveTo(mx,fy,mx,ty,tx,ty);
+    ctx.strokeStyle=ha(n.color||'#6c63ff',.35);ctx.lineWidth=Math.max(1,2*sc);ctx.stroke();
   });
-
-  // Nodes
-  nodes.forEach(n => {
-    const sx=n.x*sc+ox, sy=n.y*sc+oy;
-    const isC = n.parentId == null;
-    const r   = isC ? Math.max(36,52*sc) : Math.max(22,38*sc);
-    const fs  = isC ? Math.max(11,14*sc) : Math.max(9,12*sc);
-    ctx.shadowColor = hexAlpha(n.color||'#6c63ff',0.4);
-    ctx.shadowBlur  = 12*sc;
-    ctx.beginPath(); ctx.arc(sx,sy,r,0,Math.PI*2);
-    ctx.fillStyle = n.color||'#6c63ff';
-    ctx.globalAlpha = 0.92; ctx.fill();
-    ctx.globalAlpha = 1; ctx.shadowBlur = 0;
-    ctx.strokeStyle = state.selectedNode===n.id ? '#fff' : hexAlpha(n.color||'#fff',0.4);
-    ctx.lineWidth   = state.selectedNode===n.id ? 2.5 : 1;
-    ctx.stroke();
-    ctx.fillStyle = '#fff';
-    ctx.font = `${isC?600:500} ${fs}px Segoe UI,sans-serif`;
-    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-    const words=n.text.split(' '), maxW=r*1.7;
+  nodes.forEach(n=>{
+    const sx=n.x*sc+ox,sy=n.y*sc+oy,isC=n.parentId==null;
+    const r=isC?Math.max(36,52*sc):Math.max(22,38*sc);
+    const fs=isC?Math.max(11,14*sc):Math.max(9,12*sc);
+    ctx.shadowColor=ha(n.color||'#6c63ff',.4);ctx.shadowBlur=12*sc;
+    ctx.beginPath();ctx.arc(sx,sy,r,0,Math.PI*2);
+    ctx.fillStyle=n.color||'#6c63ff';ctx.globalAlpha=.92;ctx.fill();
+    ctx.globalAlpha=1;ctx.shadowBlur=0;
+    ctx.strokeStyle=S.selectedNode===n.id?'#fff':ha(n.color||'#fff',.4);
+    ctx.lineWidth=S.selectedNode===n.id?2.5:1;ctx.stroke();
+    ctx.fillStyle='#fff';ctx.font=`${isC?600:500} ${fs}px Segoe UI,sans-serif`;
+    ctx.textAlign='center';ctx.textBaseline='middle';
+    const words=(n.text||'').split(' '),maxW=r*1.7;
     let lines=[],cur='';
-    words.forEach(w => { const t=cur?cur+' '+w:w; if(ctx.measureText(t).width>maxW&&cur){lines.push(cur);cur=w;}else{cur=t;} });
+    words.forEach(w=>{const t=cur?cur+' '+w:w;if(ctx.measureText(t).width>maxW&&cur){lines.push(cur);cur=w;}else{cur=t;}});
     if(cur)lines.push(cur);
-    const lh=fs*1.3, sy0=sy-(lines.length-1)*lh/2;
-    lines.forEach((l,i) => ctx.fillText(l,sx,sy0+i*lh));
-    if (!isC && n.submitter && sc>0.6) {
+    const lh=fs*1.3,sy0=sy-(lines.length-1)*lh/2;
+    lines.forEach((l,i)=>ctx.fillText(l,sx,sy0+i*lh));
+    if(!isC&&n.submitter&&sc>.6){
       ctx.font=`${Math.max(7,9*sc)}px Segoe UI,sans-serif`;
-      ctx.fillStyle='rgba(255,255,255,0.45)';
+      ctx.fillStyle='rgba(255,255,255,.45)';
       ctx.fillText(n.submitter,sx,sy+r+10*sc);
     }
   });
 }
-
-function hexAlpha(hex,a) {
-  const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);
-  return `rgba(${r},${g},${b},${a})`;
+function ha(hex,a){const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);return`rgba(${r},${g},${b},${a})`;}
+function setupTeacherCanvasEvents(){
+  tc.onmousedown=e=>{
+    const {x,y}=screenToWorld(e.offsetX,e.offsetY);
+    let clicked=null;
+    Object.values(S.nodes||{}).forEach(n=>{const r=n.parentId==null?52:38;if(Math.hypot(n.x-x,n.y-y)<r/S.scale)clicked=n;});
+    if(clicked){S.selectedNode=clicked.id;fbUpdate('nodes/'+clicked.id,{color:S.selectedColor});drawTeacherMap();}
+    else{S.selectedNode=null;S.dragging=true;S.dragStartX=e.clientX-S.offsetX;S.dragStartY=e.clientY-S.offsetY;}
+  };
+  tc.onmousemove=e=>{if(S.dragging){S.offsetX=e.clientX-S.dragStartX;S.offsetY=e.clientY-S.dragStartY;drawTeacherMap();}};
+  tc.onmouseup=()=>S.dragging=false;
+  tc.onmouseleave=()=>S.dragging=false;
+  tc.onwheel=e=>{
+    e.preventDefault();const f=e.deltaY<0?1.08:.93;
+    S.offsetX=e.offsetX-(e.offsetX-S.offsetX)*f;S.offsetY=e.offsetY-(e.offsetY-S.offsetY)*f;
+    S.scale=Math.min(Math.max(S.scale*f,.15),3);drawTeacherMap();
+  };
 }
+function zoomIn(){S.scale=Math.min(S.scale*1.2,3);drawTeacherMap();}
+function zoomOut(){S.scale=Math.max(S.scale*.83,.15);drawTeacherMap();}
+function resetView(){if(tc)centerView(tc);drawTeacherMap();}
+window.addEventListener('resize',()=>{if(S.role==='teacher'&&tc)resizeTeacherCanvas();});
 
-// ══════════════════════════════════════════════
+// ═══════════════════════════════════════════
 //  COLOR PICKER
-// ══════════════════════════════════════════════
-function buildColorPicker() {
-  const row = document.getElementById('node-color-picker');
-  row.innerHTML = PALETTE.map((c,i) =>
+// ═══════════════════════════════════════════
+function buildColorPicker(){
+  document.getElementById('node-color-picker').innerHTML=PALETTE.map((c,i)=>
     `<div class="color-swatch${i===0?' selected':''}" style="background:${c}" onclick="selectColor('${c}',this)"></div>`
   ).join('');
 }
-function selectColor(c, el) {
-  state.selectedColor = c;
-  document.querySelectorAll('.color-swatch').forEach(s=>s.classList.remove('selected'));
-  el.classList.add('selected');
-}
+function selectColor(c,el){S.selectedColor=c;document.querySelectorAll('.color-swatch').forEach(s=>s.classList.remove('selected'));el.classList.add('selected');}
 
-// ══════════════════════════════════════════════
-//  CHANGE PASSWORD
-// ══════════════════════════════════════════════
-function openChangePassword() {
-  ['pw-current','pw-new','pw-confirm'].forEach(id => document.getElementById(id).value='');
+// ═══════════════════════════════════════════
+//  PASSWORD
+// ═══════════════════════════════════════════
+function openChangePassword(){
+  ['pw-current','pw-new','pw-confirm'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('pw-error').textContent='';
   document.getElementById('pw-match-ok').style.display='none';
   document.getElementById('pw-strength-bar').style.width='0%';
   document.getElementById('pw-modal').classList.add('open');
   setTimeout(()=>document.getElementById('pw-current').focus(),80);
 }
-function closeChangePassword() { document.getElementById('pw-modal').classList.remove('open'); }
-function clearPwError() {
+function closeChangePassword(){document.getElementById('pw-modal').classList.remove('open');}
+function clearPwError(){
   document.getElementById('pw-error').textContent='';
-  const v=document.getElementById('pw-new').value, c=document.getElementById('pw-confirm').value;
+  const v=document.getElementById('pw-new').value,c=document.getElementById('pw-confirm').value;
   document.getElementById('pw-match-ok').style.display=(c&&c===v)?'block':'none';
 }
-function onNewPwInput() {
+function onNewPwInput(){
   clearPwError();
   const v=document.getElementById('pw-new').value;
-  let s=0; if(v.length>=4)s++; if(v.length>=8)s++; if(/[0-9]/.test(v))s++; if(/[^a-zA-Z0-9]/.test(v))s++;
+  let s=0;if(v.length>=4)s++;if(v.length>=8)s++;if(/[0-9]/.test(v))s++;if(/[^a-zA-Z0-9]/.test(v))s++;
   const bar=document.getElementById('pw-strength-bar');
-  bar.style.width  = v.length?['25%','50%','75%','100%'][Math.min(s,3)]:'0%';
-  bar.style.background = v.length?['#ff5757','#ffb347','#6c63ff','#00d4aa'][Math.min(s,3)]:'transparent';
+  bar.style.width=v.length?['25%','50%','75%','100%'][Math.min(s,3)]:'0%';
+  bar.style.background=v.length?['#ff5757','#ffb347','#6c63ff','#00d4aa'][Math.min(s,3)]:'transparent';
 }
-async function saveNewPassword() {
+async function saveNewPassword(){
   const cur=document.getElementById('pw-current').value;
-  const nw =document.getElementById('pw-new').value.trim();
+  const nw=document.getElementById('pw-new').value.trim();
   const con=document.getElementById('pw-confirm').value;
   const err=document.getElementById('pw-error');
-  if (cur !== state.teacherPass) { err.textContent='Nåværende kode er feil.'; return; }
-  if (nw.length < 4) { err.textContent='Ny kode må være minst 4 tegn.'; return; }
-  if (nw !== con) { err.textContent='Kodene stemmer ikke overens.'; return; }
-  await metaRef.update({ teacherPass: nw });
+  if(cur!==S.meta.teacherPass){err.textContent='Nåværende kode er feil.';return;}
+  if(nw.length<4){err.textContent='Ny kode må være minst 4 tegn.';return;}
+  if(nw!==con){err.textContent='Kodene stemmer ikke overens.';return;}
+  await fbUpdate('meta',{teacherPass:nw});
+  S.meta.teacherPass=nw;
   closeChangePassword();
   notify('✓ Lærerkode oppdatert!');
 }
-
-// ══════════════════════════════════════════════
-//  RESIZE
-// ══════════════════════════════════════════════
-window.addEventListener('resize', () => {
-  if (state.role==='teacher' && tc) resizeTeacherCanvas();
-});
 </script>
 </body>
 </html>
